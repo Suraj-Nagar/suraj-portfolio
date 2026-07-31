@@ -158,7 +158,7 @@ function App() {
                 tags: ["MERN Stack", "Redux", "Tailwind"],
                 bgClass: "bg-gradient-2",
                 reverse: true,
-                link: "#" // Replace when you have the link for Learning Hub
+                link: "https://lms-frontend-taupe-three.vercel.app/" // Replace when you have the link for Learning Hub
               }
             ].map((proj, idx) => (
               <motion.div 
