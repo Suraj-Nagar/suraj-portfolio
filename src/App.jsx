@@ -147,18 +147,20 @@ function App() {
             {[
               { 
                 name: "Room Wallah", 
-                desc: "A comprehensive real-estate and room finding platform. It showcases advanced full-stack capabilities including complex search filters, image uploads, and user authentication.", 
+                desc: "A dedicated platform designed to simplify the process of finding rooms and accommodations. Built with advanced search capabilities and user-friendly interfaces to connect seekers with the perfect living spaces.", 
                 tags: ["MongoDB", "Express", "React", "Node.js"],
                 bgClass: "bg-gradient-1",
-                link: "https://rw-frontend-nine.vercel.app/"
+                link: "https://rw-frontend-nine.vercel.app/",
+                image: "/room-wallah.png"
               },
               { 
                 name: "Learning Hub", 
-                desc: "An interactive educational platform designed for seamless course delivery. Demonstrates complex state management, secure database handling, and a highly responsive UI.", 
+                desc: "An e-learning platform where instructors can easily add and manage courses, and students can browse and watch them seamlessly. Features smooth video delivery and a dynamic learning dashboard.", 
                 tags: ["MERN Stack", "Redux", "Tailwind"],
                 bgClass: "bg-gradient-2",
                 reverse: true,
-                link: "https://lms-frontend-taupe-three.vercel.app/" // Replace when you have the link for Learning Hub
+                link: "https://lms-frontend-taupe-three.vercel.app/",
+                image: "/learning-hub.png"
               }
             ].map((proj, idx) => (
               <motion.div 
@@ -180,7 +182,11 @@ function App() {
                   </a>
                 </div>
                 <div className={`project-visual ${proj.bgClass}`}>
-                  <div className="visual-placeholder">{proj.name} Visual</div>
+                  {proj.image ? (
+                    <img src={proj.image} alt={proj.name} className="project-image" />
+                  ) : (
+                    <div className="visual-placeholder">{proj.name} Visual</div>
+                  )}
                 </div>
               </motion.div>
             ))}

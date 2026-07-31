@@ -312,29 +312,10 @@ h1, h2, h3, h4, h5, h6 {
   background: linear-gradient(135deg, rgba(184,41,255,0.1) 0%, rgba(0,255,204,0.1) 100%);
 }
 
-.visual-placeholder {
-  width: 80%;
-  height: 70%;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(255,255,255,0.3);
-  font-family: var(--font-heading);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-  transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
-  transition: transform 0.5s ease;
-}
-
-.project-card:hover .visual-placeholder {
-  transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
-}
-
-.reverse-layout .visual-placeholder {
-  transform: perspective(1000px) rotateY(5deg) rotateX(5deg);
-}
+.visual-placeholder { width: 80%; height: 70%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.3); font-family: var(--font-heading); box-shadow: 0 20px 40px rgba(0,0,0,0.4); transform: perspective(1000px) rotateY(-5deg) rotateX(5deg); transition: transform 0.5s ease; }
+.project-image { width: 80%; height: auto; max-height: 80%; object-fit: cover; border-radius: 10px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); transform: perspective(1000px) rotateY(-5deg) rotateX(5deg); transition: transform 0.5s ease; border: 1px solid rgba(255,255,255,0.1); }
+.project-card:hover .visual-placeholder, .project-card:hover .project-image { transform: perspective(1000px) rotateY(0deg) rotateX(0deg); }
+.reverse-layout .visual-placeholder, .reverse-layout .project-image { transform: perspective(1000px) rotateY(5deg) rotateX(5deg); }
 
 /* Contact Section */
 .contact-container {
