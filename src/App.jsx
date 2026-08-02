@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Points, PointMaterial } from '@react-three/drei'
 import { motion } from 'framer-motion'
-import { Server, Database, Code2, Palette, ExternalLink, Mail, Github, Linkedin, Send } from 'lucide-react'
+import { Server, Database, Code2, Palette, ExternalLink, Mail, Github, Linkedin, Send, CheckCircle, XCircle, Loader2 } from 'lucide-react'
 import { Tilt } from 'react-tilt'
 import './index.css'
 
@@ -37,6 +37,33 @@ function ParticleBackground(props) {
 }
 
 function App() {
+  const [formStatus, setFormStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    setFormStatus('submitting');
+    const formData = new FormData(e.target);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
+      });
+      const data = await response.json();
+      if (data.success) {
+        setFormStatus('success');
+        e.target.reset();
+        setTimeout(() => setFormStatus('idle'), 6000); // Hide after 6 seconds
+      } else {
+        setFormStatus('error');
+        setTimeout(() => setFormStatus('idle'), 4000);
+      }
+    } catch (error) {
+      setFormStatus('error');
+      setTimeout(() => setFormStatus('idle'), 4000);
+    }
+  };
+
   const fadeUp = {
     hidden: { opacity: 0, y: 50 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
@@ -230,6 +257,7 @@ function App() {
             </motion.div>
             
             <motion.form 
+              onSubmit={handleFormSubmit}
               className="contact-form glass-card"
               initial="hidden"
               whileInView="visible"
@@ -238,18 +266,52 @@ function App() {
                 hidden: { opacity: 0, x: 50 },
                 visible: { opacity: 1, x: 0, transition: { duration: 0.8, delay: 0.2 } }
               }}
+              style={{ position: 'relative' }}
             >
+              {/* Premium Success Overlay */}
+              {formStatus === 'success' && (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="success-overlay"
+                >
+                  <CheckCircle size={60} className="success-icon" />
+                  <h4>Message Sent Successfully!</h4>
+                  <p>Thank you for reaching out. I'll get back to you as soon as possible.</p>
+                </motion.div>
+              )}
+
+              {/* Error Overlay */}
+              {formStatus === 'error' && (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="success-overlay"
+                >
+                  <XCircle size={60} style={{ color: '#ff4d4d', marginBottom: '1rem' }} />
+                  <h4>Oops! Something went wrong.</h4>
+                  <p>Please check your access key or try again later.</p>
+                </motion.div>
+              )}
+
+              {/* Replace with your Access Key */}
+              <input type="hidden" name="access_key" value="7a15a661-69ef-4cc1-9fd1-c71a698e82c7" />
+              
               <div className="form-group">
-                <input type="text" placeholder="Your Name" required />
+                <input type="text" name="name" placeholder="Your Name" required disabled={formStatus === 'submitting'} />
               </div>
               <div className="form-group">
-                <input type="email" placeholder="Your Email" required />
+                <input type="email" name="email" placeholder="Your Email" required disabled={formStatus === 'submitting'} />
               </div>
               <div className="form-group">
-                <textarea rows="5" placeholder="Your Message" required></textarea>
+                <textarea name="message" rows="5" placeholder="Your Message" required disabled={formStatus === 'submitting'}></textarea>
               </div>
-              <button type="submit" className="btn btn-primary submit-btn">
-                Send Message <Send size={16} style={{marginLeft: '0.5rem', display: 'inline'}} />
+              <button type="submit" className="btn btn-primary submit-btn" disabled={formStatus === 'submitting'}>
+                {formStatus === 'submitting' ? (
+                  <>Sending... <Loader2 size={16} className="spinner" style={{marginLeft: '0.5rem', display: 'inline'}} /></>
+                ) : (
+                  <>Send Message <Send size={16} style={{marginLeft: '0.5rem', display: 'inline'}} /></>
+                )}
               </button>
             </motion.form>
           </div>
